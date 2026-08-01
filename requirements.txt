@@ -1,0 +1,6 @@
+networkx==3.3
+pydantic==2.8.2
+openai==1.42.0
+transformers==4.44.0
+torch==2.4.0
+pytest==8.3.2

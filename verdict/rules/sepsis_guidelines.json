@@ -1,0 +1,79 @@
+[
+  {
+    "id": "SSC-1",
+    "condition": "Suspected Sepsis AND Hypotension OR Lactate >= 4 mmol/L",
+    "recommended_action": "Administer at least 30 mL/kg of IV crystalloid fluid within the first 3 hours of resuscitation.",
+    "citation": "Surviving Sepsis Campaign 2021, Rec 1",
+    "tags": ["sepsis", "fluids"]
+  },
+  {
+    "id": "SSC-2",
+    "condition": "Suspected Sepsis AND requirement for vasopressors",
+    "recommended_action": "Target a mean arterial pressure (MAP) of 65 mm Hg over higher MAP targets.",
+    "citation": "Surviving Sepsis Campaign 2021, Rec 2",
+    "tags": ["sepsis", "hemodynamics"]
+  },
+  {
+    "id": "SSC-3",
+    "condition": "Possible sepsis without shock",
+    "recommended_action": "Rapid assessment of infectious vs. non-infectious causes of acute illness.",
+    "citation": "Surviving Sepsis Campaign 2021, Rec 3",
+    "tags": ["sepsis", "diagnosis"]
+  },
+  {
+    "id": "SSC-4",
+    "condition": "High likelihood of sepsis OR septic shock",
+    "recommended_action": "Administer antimicrobials immediately, ideally within 1 hour of recognition.",
+    "citation": "Surviving Sepsis Campaign 2021, Rec 4",
+    "tags": ["sepsis", "antibiotics"]
+  },
+  {
+    "id": "SSC-5",
+    "condition": "Septic shock AND inadequate response to fluids",
+    "recommended_action": "Use norepinephrine as the first-line vasopressor.",
+    "citation": "Surviving Sepsis Campaign 2021, Rec 5",
+    "tags": ["sepsis", "vasopressors"]
+  },
+  {
+    "id": "SSC-6",
+    "condition": "Septic shock AND inadequate MAP on norepinephrine",
+    "recommended_action": "Add vasopressin instead of escalating dose of norepinephrine.",
+    "citation": "Surviving Sepsis Campaign 2021, Rec 6",
+    "tags": ["sepsis", "vasopressors"]
+  },
+  {
+    "id": "SSC-7",
+    "condition": "Suspected sepsis",
+    "recommended_action": "Obtain routine microbiologic cultures (including blood) before starting antimicrobial therapy if it does not substantially delay therapy.",
+    "citation": "Surviving Sepsis Campaign 2021, Rec 7",
+    "tags": ["sepsis", "diagnosis"]
+  },
+  {
+    "id": "RD-1",
+    "condition": "Requirement for piperacillin-tazobactam AND Creatinine Clearance < 20 mL/min",
+    "recommended_action": "Reduce piperacillin-tazobactam dose to 2.25 g every 6 hours.",
+    "citation": "Standard renal dose-adjustment guidance",
+    "tags": ["renal", "antibiotics"]
+  },
+  {
+    "id": "RD-2",
+    "condition": "Requirement for vancomycin AND Creatinine Clearance < 50 mL/min",
+    "recommended_action": "Increase vancomycin dosing interval to every 24 to 48 hours based on trough levels.",
+    "citation": "Standard renal dose-adjustment guidance",
+    "tags": ["renal", "antibiotics"]
+  },
+  {
+    "id": "RD-3",
+    "condition": "Requirement for meropenem AND Creatinine Clearance < 25 mL/min",
+    "recommended_action": "Reduce meropenem dose to 500 mg every 12 hours.",
+    "citation": "Standard renal dose-adjustment guidance",
+    "tags": ["renal", "antibiotics"]
+  },
+  {
+    "id": "RENAL-FLUID",
+    "condition": "Suspected Sepsis AND End-Stage Renal Disease (ESRD) or severe oliguric AKI",
+    "recommended_action": "Use cautious fluid resuscitation (e.g., 250-500 mL boluses) and reassess frequently, rather than fixed 30 mL/kg volume, to avoid pulmonary edema.",
+    "citation": "Critical Care Nephrology Principles",
+    "tags": ["renal", "fluids", "sepsis"]
+  }
+]
