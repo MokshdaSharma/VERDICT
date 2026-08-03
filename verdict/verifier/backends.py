@@ -56,27 +56,36 @@ class LLMEntailmentBackend(EntailmentVerifier):
         
     def verify(self, premise: str, hypothesis: str) -> float:
         import json
+        from google.genai import types
+        from pydantic import BaseModel
+        from verdict.utils.rate_limit import call_with_rate_limit
+        
         if not self.api_client:
-            # simple keyword match if no client (just for basic tests)
             if hypothesis.lower() in premise.lower():
                 return 1.0
             return 0.1
             
-        prompt = f"""
-Given the following premise, does it entail the hypothesis? 
-Respond with ONLY a JSON object containing a "score" field with a float between 0.0 and 1.0.
-
-Premise: {premise}
-Hypothesis: {hypothesis}
-"""
-        response = self.api_client.chat.completions.create(
-            model=self.model_name,
-            messages=[{"role": "user", "content": prompt}]
+        class EntailmentOutput(BaseModel):
+            score: float
+            
+        prompt = f"Given the following premise, does it entail the hypothesis? \nPremise: {premise}\nHypothesis: {hypothesis}"
+        
+        config = types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema=EntailmentOutput,
         )
+        
+        est_tokens = len(prompt) // 4
         try:
-            content = response.choices[0].message.content
-            # Simple parse
-            parsed = json.loads(content)
-            return float(parsed.get("score", 0.0))
-        except Exception:
+            response = call_with_rate_limit(
+                self.api_client.models.generate_content,
+                est_tokens,
+                model=self.model_name,
+                contents=prompt,
+                config=config
+            )
+            parsed = EntailmentOutput.model_validate_json(response.text)
+            return float(parsed.score)
+        except Exception as e:
+            print(f"[LLMEntailmentBackend] error: {e}")
             return 0.0

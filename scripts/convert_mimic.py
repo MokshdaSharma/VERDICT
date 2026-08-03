@@ -61,6 +61,11 @@ def convert(data_dir: str, out_dir: str):
             json.dump(bundle, f)
 
     print("Conversion complete!")
+    
+    # Write manifest
+    manifest_path = os.path.join(out_dir, "manifest.json")
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump({"status": "completed", "patient_count": len(patient_resources)}, f)
 
 if __name__ == "__main__":
     mimic_dir = os.path.join("data", "mimic", "mimic-iv-clinical-database-demo-on-fhir-2.1.0", "fhir")

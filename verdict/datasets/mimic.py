@@ -36,6 +36,21 @@ class MimicFhirLoader(DatasetAdapter):
         self._scan_data()
         
     def _scan_data(self):
+        manifest_path = os.path.join(self.data_dir, "manifest.json")
+        source_dir = os.path.join("data", "mimic", "mimic-iv-clinical-database-demo-on-fhir-2.1.0", "fhir")
+        
+        if not os.path.exists(manifest_path):
+            print("MIMIC-IV converted bundles not found or incomplete. Running conversion (this will be cached)...")
+            # Fallback to absolute/relative import
+            import sys
+            if os.path.abspath("scripts") not in sys.path:
+                sys.path.insert(0, os.path.abspath("scripts"))
+            from convert_mimic import convert
+            convert(source_dir, self.data_dir)
+            print("Using newly converted MIMIC-IV data.")
+        else:
+            print("Using cached MIMIC-IV conversion.")
+            
         if not os.path.exists(self.data_dir):
             return
             

@@ -1,4 +1,4 @@
-from verdict.verifier.backends import LLMEntailmentBackend
+from verdict.verifier.backends import LLMEntailmentBackend, HuggingFaceNLIBackend
 from verdict.verifier.gate import AdmissionGate
 from verdict.graph.models import Observation, KnowledgeProvenance
 
@@ -15,6 +15,19 @@ def test_llm_backend_mock():
     hypothesis_false = "Patient has no fever"
     score_false = backend.verify(premise, hypothesis_false)
     assert score_false == 0.1
+
+def test_hf_nli_backend():
+    backend = HuggingFaceNLIBackend("cross-encoder/nli-deberta-v3-base")
+    
+    premise = "The patient has a history of severe hypertension."
+    hypothesis_true = "The patient suffers from high blood pressure."
+    hypothesis_false = "The patient has normal blood pressure."
+    
+    score_true = backend.verify(premise, hypothesis_true)
+    score_false = backend.verify(premise, hypothesis_false)
+    
+    assert score_true > 0.5, f"Expected entailment score > 0.5, got {score_true}"
+    assert score_false < 0.5, f"Expected entailment score < 0.5, got {score_false}"
 
 def test_admission_gate():
     backend = LLMEntailmentBackend(api_client=None)

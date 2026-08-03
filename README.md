@@ -20,19 +20,21 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Set your API key (OpenAI or Gemini):
+Set your API key for Google Gemini:
 ```bash
-export OPENAI_API_KEY="your-api-key"
+export OPENAI_API_KEY="your-gemini-api-key"
 ```
 
 ## Running the Evaluation
-To evaluate the architecture against available datasets:
+To evaluate the architecture against all available datasets in a single, self-healing pass:
 ```bash
-python run_eval.py --model gemini-3.5-flash --limit 1 --sleep 60
+python run_eval.py --bulk-model gemini-2.5-flash --synth-model gemini-3.5-flash
 ```
-- `--model`: Specific model to query (defaults to `gemini-3.5-flash`).
-- `--limit`: Maximum number of patients to evaluate per dataset to save time/tokens.
-- `--sleep`: Cooldown timer between evaluations (useful for free-tier rate limits).
+- **Self-Healing Server**: `run_eval.py` automatically checks for and starts the local FHIR server using `docker compose up -d` if it's not already running.
+- **Transparent Caching**: The pipeline natively supports MIMIC-IV NDJSON format and will automatically invoke and cache the conversion step on first load. No manual conversion needed.
+- **Evaluation Arms**: The harness evaluates the case set across 5 distinct architectures (`single-agent+RAG`, `free-text multi-agent`, `VERDICT-verifier-ablated`, `VERDICT-fixed-scheduling`, and `full VERDICT`).
+- **Resumable Execution**: The harness automatically streams output to `logs/eval_results_<arm>.jsonl`. If execution is interrupted (e.g., due to power loss), running the script again will skip already-completed patient evaluations. Use `--force-rerun` to restart from scratch.
+- **Rate Limiting**: Built-in token bucket rate limiting ensures that free-tier API caps (TPM/RPM) are respected without arbitrary sleeps or manual intervention.
 
 ## Evaluation Results
 The results of previous runs, ablation studies, and baseline comparisons can be found in `RESULTS.md`.

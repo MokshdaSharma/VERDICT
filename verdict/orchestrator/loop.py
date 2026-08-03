@@ -30,6 +30,8 @@ class Orchestrator:
             
             node_adapter = TypeAdapter(AnyNode)
             try:
+                if hasattr(node_data, "model_dump"):
+                    node_data = node_data.model_dump()
                 node = node_adapter.validate_python(node_data)
                 
                 # Check entailment via Grounding Verifier
@@ -49,6 +51,8 @@ class Orchestrator:
         # Process Edges
         for edge_data in output.edges:
             try:
+                if hasattr(edge_data, "model_dump"):
+                    edge_data = edge_data.model_dump()
                 edge = Edge(**edge_data)
                 self.graph_store.add_edge(edge)
                 self.logs.append(f"[{agent_key}] Added edge {edge.source_id} -> {edge.target_id}")
@@ -69,7 +73,7 @@ class Orchestrator:
         self._run_agent("HA", f"Current Graph:\n{graph_context}")
         
         graph_context = self.graph_store.to_json()
-        self._run_agent("PA", f"Patient Data:\n{patient_data}\nCurrent Graph:\n{graph_context}")
+        self._run_agent("PA", f"Current Graph:\n{graph_context}")
         
         # ACA loop
         for i in range(max_critic_rounds):
